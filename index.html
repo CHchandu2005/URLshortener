@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Piazzolla:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Piazzolla', serif;
+        }
+
+        body.dark {
+            background-color: #1a202c;
+            color: #cbd5e0;
+        }
+
+        body.light {
+            background-color: #f7fafc;
+            color: #2d3748;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .card-custom {
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .card-custom:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-img-top {
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            height: 180px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body class="light min-vh-100 d-flex flex-column">
+    <nav class="navbar navbar-expand-md navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand fs-3 fw-bold" href="#">URL Shortener</a>
+            <button class="btn btn-outline-light" id="theme-toggle">
+                <i class="fas fa-sun" id="theme-icon"></i>
+            </button>
+        </div>
+    </nav>
+    <main class="container my-5 flex-grow-1 fade-in">
+        <section class="mb-5">
+            <h2 class="display-5 fw-bold mb-4">Shorten Your URL</h2>
+            <div class="row g-3 align-items-center">
+                <form id="url-form">
+                    <div class="col-md-8">
+                        <input type="text" id="long-url" class="form-control" name="url" placeholder="Enter your long URL here" required>
+                    </div><br>
+                    <div class="col-md-4">
+                        <button id="generate-btn" type="submit" class="btn btn-primary w-100">Generate Short URL</button>
+                    </div>
+                </form>
+            </div>
+            <div class="mt-3 d-none" id="short-url-container">
+                <p class="fs-5">Your short URL: <a href="#" class="text-primary" id="short-url"></a></p>
+            </div>
+            <div class="mt-3 text-danger d-none" id="error-message">
+                <p>Please enter a valid URL.</p>
+            </div>
+        </section>
+        <section class="mb-5">
+            <h2 class="display-5 fw-bold mb-4">Why We Are the Best in the Market</h2>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                <div class="col">
+                    <div class="card card-custom h-100">
+                        <img src="fast.jpg" class="card-img-top" style="height: 250px; object-fit: cover;" alt="Fast and Reliable">
+                        <div class="card-body text-center">
+                            <h3 class="card-title">Fast and Reliable</h3>
+                            <p class="card-text">Our service ensures that your URLs are shortened quickly and reliably,
+                                with minimal downtime.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card card-custom h-100">
+                        <img src="secure.jpg" class="card-img-top" style="height: 250px; object-fit: cover;" alt="Secure">
+                        <div class="card-body text-center">
+                            <h3 class="card-title">Secure</h3>
+                            <p class="card-text">We prioritize your security, ensuring that your data is protected with
+                                the latest encryption technologies.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card card-custom h-100">
+                        <img src="friendly.jpg" class="card-img-top" style="height: 250px; object-fit: cover;" alt="User-Friendly">
+                        <div class="card-body text-center">
+                            <h3 class="card-title">User-Friendly</h3>
+                            <p class="card-text">Our platform is designed to be intuitive and easy to use, so you can
+                                shorten URLs with just a few clicks.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="mb-3">
+            <h2 class="display-5 fw-bold mb-4">Contact Us</h2>
+            <form action="/contact" method="post">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" id="name" class="form-control" placeholder="Your Name" name="name">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" class="form-control" placeholder="Your Email" name="email">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea id="message" class="form-control" rows="3" placeholder="Your Message" name="description"></textarea>
+                    </div>
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </main>
+    <footer class="bg-primary text-white text-center py-3">
+        <p class="mb-0">created with ❤ by chandu</p>
+    </footer>
+    <script>
+        document.getElementById('url-form').onsubmit = async function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const urlInput = document.getElementById('long-url');
+            let url = urlInput.value.trim();
+            const errorMessage = document.getElementById('error-message');
+            const shortUrlContainer = document.getElementById('short-url-container');
+            const shortUrlDisplay = document.getElementById('short-url');
+
+            // Clear previous messages
+            errorMessage.classList.add('d-none');
+            shortUrlContainer.classList.add('d-none');
+
+             // Add "http://" if no protocol is specified in the URL
+             if (!/^https?:\/\//i.test(url)) {
+                url = `http://${url}`;
+            }
+
+            // Validate the URL format
+            const urlPattern = /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,6}(\/[^\s]*)?$/i;
+
+            if (!urlPattern.test(url)) {
+                // Display error message if URL is invalid
+                errorMessage.classList.remove('d-none');
+                return; // Exit the function without sending to the backend
+            }
+
+           
+
+            const response = await fetch('/geturl', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ url })
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                shortUrlDisplay.textContent = result.shortUrl;
+                shortUrlDisplay.href = result.shortUrl;
+                shortUrlContainer.classList.remove('d-none');
+            } else {
+                errorMessage.classList.remove('d-none');
+            }
+        };
+        const toggleButton = document.getElementById("theme-toggle");
+        const themeIcon = document.getElementById("theme-icon");
+        toggleButton.addEventListener('click', function () {
+            document.body.classList.toggle("dark");
+            document.body.classList.toggle("light");
+
+            // Change icon based on the theme
+            if (document.body.classList.contains("dark")) {
+                themeIcon.classList.remove("fa-moon");
+                themeIcon.classList.add("fa-sun");
+            } else {
+                themeIcon.classList.remove("fa-sun");
+                themeIcon.classList.add("fa-moon");
+            }
+        });
+    </script>
+</body>
+
+</html>
+
